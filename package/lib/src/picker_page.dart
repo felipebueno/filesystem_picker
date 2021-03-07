@@ -64,8 +64,7 @@ class FilesystemPicker extends StatefulWidget {
           onSelect: (String value) {
             Navigator.of(context).pop<String>(value);
           },
-          fileTileSelectMode:
-              fileTileSelectMode ?? FileTileSelectMode.checkButton,
+          fileTileSelectMode: fileTileSelectMode,
           requestPermission: requestPermission,
         );
       }),
@@ -184,7 +183,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
               textTheme: TextTheme(
                 button: TextStyle(
                     color: AppBarTheme.of(context).textTheme?.title?.color ??
-                        Theme.of(context).primaryTextTheme?.title?.color),
+                        Theme.of(context).primaryTextTheme.title?.color),
               ),
             ),
             child: Breadcrumbs<String>(
@@ -237,12 +236,12 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
                   child: FlatButton.icon(
                     textColor:
                         AppBarTheme.of(context).textTheme?.title?.color ??
-                            Theme.of(context).primaryTextTheme?.title?.color,
+                            Theme.of(context).primaryTextTheme.title?.color,
                     disabledTextColor: (AppBarTheme.of(context)
                                 .textTheme
                                 ?.title
                                 ?.color ??
-                            Theme.of(context).primaryTextTheme?.title?.color)!
+                            Theme.of(context).primaryTextTheme.title?.color)!
                         .withOpacity(0.5),
                     icon: Icon(Icons.check_circle),
                     label: (widget.pickText != null)
