@@ -7,38 +7,38 @@ import 'filesystem_list_tile.dart';
 
 class FilesystemList extends StatelessWidget {
   final bool isRoot;
-  final Directory rootDirectory;
+  final Directory? rootDirectory;
   final FilesystemType fsType;
-  final Color folderIconColor;
-  final List<String> allowedExtensions;
+  final Color? folderIconColor;
+  final List<String>? allowedExtensions;
   final ValueChanged<Directory> onChange;
   final ValueSelected onSelect;
   final FileTileSelectMode fileTileSelectMode;
 
   FilesystemList({
-    Key key,
+    Key? key,
     this.isRoot = false,
-    @required this.rootDirectory,
+    required this.rootDirectory,
     this.fsType = FilesystemType.all,
     this.folderIconColor,
     this.allowedExtensions,
-    @required this.onChange,
-    @required this.onSelect,
-    @required this.fileTileSelectMode,
+    required this.onChange,
+    required this.onSelect,
+    required this.fileTileSelectMode,
   })  : assert(fileTileSelectMode != null),
         super(key: key);
 
   Future<List<FileSystemEntity>> _dirContents() {
     var files = <FileSystemEntity>[];
     var completer = new Completer<List<FileSystemEntity>>();
-    var lister = this.rootDirectory.list(recursive: false);
+    var lister = this.rootDirectory!.list(recursive: false);
     lister.listen(
       (file) {
         if ((fsType != FilesystemType.folder) || (file is Directory)) {
           if ((file is File) &&
               (allowedExtensions != null) &&
-              (allowedExtensions.length > 0)) {
-            if (!allowedExtensions.contains(Path.extension(file.path))) return;
+              (allowedExtensions!.length > 0)) {
+            if (!allowedExtensions!.contains(Path.extension(file.path))) return;
           }
           files.add(file);
         }
@@ -58,7 +58,7 @@ class FilesystemList extends StatelessWidget {
         title: Text("..", textScaleFactor: 1.5),
       ),
       onTap: () {
-        final li = this.rootDirectory.path.split(Platform.pathSeparator)
+        final li = this.rootDirectory!.path.split(Platform.pathSeparator)
           ..removeLast();
         onChange(Directory(li.join(Platform.pathSeparator)));
       },
@@ -74,13 +74,13 @@ class FilesystemList extends StatelessWidget {
         if (snapshot.hasData) {
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: snapshot.data.length + (isRoot ? 0 : 1),
+            itemCount: snapshot.data!.length + (isRoot ? 0 : 1),
             itemBuilder: (BuildContext context, int index) {
               if (!isRoot && index == 0) {
                 return _topNavigation();
               }
 
-              final item = snapshot.data[index - (isRoot ? 0 : 1)];
+              final item = snapshot.data![index - (isRoot ? 0 : 1)];
               return FilesystemListTile(
                 fsType: fsType,
                 item: item,

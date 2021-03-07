@@ -3,27 +3,27 @@ import 'listview_extensions.dart';
 
 class BreadcrumbItem<T> {
   final String text;
-  final T data;
-  final ValueChanged<T> onSelect;
+  final T? data;
+  final ValueChanged<T>? onSelect;
 
   BreadcrumbItem({
-    @required this.text,
+    required this.text,
     this.data,
     this.onSelect,
   });
 }
 
 class Breadcrumbs<T> extends StatelessWidget {
-  final List<BreadcrumbItem<T>> items;
+  final List<BreadcrumbItem<T?>> items;
   final double height;
-  final Color textColor;
-  final ValueChanged<T> onSelect;
+  final Color? textColor;
+  final ValueChanged<T?>? onSelect;
 
   final ScrollController _scrollController = ScrollController();
 
   Breadcrumbs({
-    Key key,
-    @required this.items,
+    Key? key,
+    required this.items,
     this.height = 50,
     this.textColor,
     this.onSelect,
@@ -35,9 +35,9 @@ class Breadcrumbs<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToEnd());
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToEnd());
 
-    final Color defaultTextColor = Theme.of(context).textTheme.button.color;
+    final Color? defaultTextColor = Theme.of(context).textTheme.button!.color;
 
     return ShaderMask(
       shaderCallback: (Rect bounds) {
@@ -65,14 +65,14 @@ class Breadcrumbs<T> extends StatelessWidget {
               child: FlatButton(
                 textColor: (index == (items.length - 1))
                     ? (textColor ?? defaultTextColor)
-                    : (textColor ?? defaultTextColor).withOpacity(0.75),
+                    : (textColor ?? defaultTextColor)!.withOpacity(0.75),
                 child: Text(items[index].text),
                 onPressed: () {
                   if (items[index].onSelect != null) {
-                    items[index].onSelect(items[index].data);
+                    items[index].onSelect!(items[index].data);
                   }
                   if (onSelect != null) {
-                    onSelect(items[index].data);
+                    onSelect!(items[index].data);
                   }
                 },
               ),
@@ -82,7 +82,7 @@ class Breadcrumbs<T> extends StatelessWidget {
             alignment: Alignment.center,
             child: Icon(
               Icons.chevron_right,
-              color: (textColor ?? defaultTextColor).withOpacity(0.45),
+              color: (textColor ?? defaultTextColor)!.withOpacity(0.45),
             ),
           ),
           headerBuilder: (_) =>
